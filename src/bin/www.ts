@@ -3,11 +3,9 @@
 /**
  * Module dependencies.
  */
-import app from '~/app';
-import debug from 'debug';
 import { createServer } from 'http';
-
-const dbg = debug('express-app-template:server');
+import app from '~/app';
+import { debug } from './debug';
 
 /**
  * Get port from environment and store in Express.
@@ -27,9 +25,9 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 server.on('SIGTERM', () => {
-  dbg('SIGTERM signal received: closing HTTP server');
+  debug('SIGTERM signal received: closing HTTP server');
   server.close(() => {
-    dbg('HTTP server closed');
+    debug('HTTP server closed');
   });
 });
 
@@ -83,5 +81,5 @@ function onError(error: any) {
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr?.port;
-  dbg('Listening on ' + bind);
+  debug('Listening on ' + bind);
 }

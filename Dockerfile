@@ -31,7 +31,7 @@ COPY --chown=node:node --from=build /app/package.json /app/pnpm-lock.yaml /app/.
 # COPY --chown=node:node --from=build /app/.env /app/dist/.env
 
 ENV NODE_ENV="production"
-ENV DEBUG="express-app-template:*"
+ENV DEBUG="app:*"
 ENV DATABASE_URL="postgres://postgres:postgres@postgres:5432/express_app_template"
 ENV JWT_SECRET="H3ll0W0rld!"
 

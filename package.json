@@ -11,7 +11,7 @@
     "start": "node -r tsconfig-paths/register .",
     "start:prod": "cross-env NODE_ENV=production npm start",
     "start:dev": "cross-env NODE_ENV=development env-cmd tsnd -r tsconfig-paths/register --rs --clear --respawn --transpile-only src/bin/www",
-    "start:debug": "cross-env NODE_ENV=development DEBUG=express-app-template:* env-cmd tsnd -r tsconfig-paths/register --rs --clear --respawn --transpile-only --debug --inspect=0.0.0.0:9229 -- src/bin/www",
+    "start:debug": "cross-env NODE_ENV=development DEBUG=app:* env-cmd tsnd -r tsconfig-paths/register --rs --clear --respawn --transpile-only --debug --inspect=0.0.0.0:9229 -- src/bin/www",
     "format": "prettier -w \"{config,db,public,src}/**/*.{md,html,css,json,js,ts}\"",
     "seq": "env-cmd sequelize",
     "prepare": "husky install"
