@@ -1,5 +1,5 @@
 import { RequestHandler, Router } from 'express';
-import { authRoutes, commentRoutes, postRoutes, userRoutes } from './routes';
+import { authRoutes, commentRoutes, dvdrentalRoutes, postRoutes, userRoutes } from './routes';
 
 export const router = Router();
 
@@ -9,6 +9,8 @@ router.get('/', (async (_, res, __) => {
 }) as RequestHandler);
 
 router.use('/', authRoutes);
+
+router.use('/dvdrental', dvdrentalRoutes);
 
 router.use('/v1/users', userRoutes);
 router.use('/v1/posts', postRoutes);
