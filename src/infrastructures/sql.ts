@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize';
+import { debug } from '~/bin/debug';
 import databaseConfig from '~/config/database.config';
 import { Comment, commentModel } from '~/models/comment.model';
 import { Post, postModel } from '~/models/post.model';
@@ -22,19 +23,12 @@ export class Models {
     this.Comment = comment;
   }
 }
-export type ModelsKeys = keyof Models;
 
 export const models = new Models(
   userModel(sequelize, Sequelize.DataTypes),
   postModel(sequelize, Sequelize.DataTypes),
   commentModel(sequelize, Sequelize.DataTypes),
 );
-
-(Object.keys(models) as Array<ModelsKeys>).forEach((modelName) => {
-  if (!!models[modelName].associate) {
-    models[modelName].associate(models);
-  }
-});
 
 export class Sql extends Models {
   readonly sequelize!: Sequelize.Sequelize;
@@ -44,14 +38,34 @@ export class Sql extends Models {
     super(models.User, models.Post, models.Comment);
     this.sequelize = s;
     this.Sequelize = S;
+    this.createAssociation(models);
   }
 
-  async connect() {
-    try {
-      await sequelize.authenticate();
-    } catch (err) {
-      console.error('Unable to connect to the SQL database:', err);
-      throw err;
+  private createAssociation(models: Models) {
+    (Object.keys(models) as Array<keyof Models>).forEach((modelName) => {
+      if (!!models[modelName].associate) {
+        models[modelName].associate(models);
+      }
+    });
+  }
+
+  async authenticate() {
+    const [_, err] = await sequelize
+      .authenticate()
+      .then(() => {
+        debug('SQL Connection has been established successfully.');
+        return [null, null];
+      })
+      .catch((err) => {
+        console.error('Unable to connect to the SQL database:', err);
+        return [null, true];
+      });
+
+    if (err) {
+      const sto = setTimeout(() => {
+        this.authenticate();
+        clearTimeout(sto);
+      }, 10000);
     }
   }
 }

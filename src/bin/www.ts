@@ -85,9 +85,5 @@ async function onListening() {
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr?.port;
   debug('Listening on ' + bind);
 
-  await Promise.all([
-    sql.connect().then(() => {
-      debug('SQL Connection has been established successfully.');
-    }),
-  ]);
+  await Promise.all([sql.authenticate()]);
 }
