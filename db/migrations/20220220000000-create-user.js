@@ -15,6 +15,11 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.NOW,
       },
+      deletedAt: {
+        type: Sequelize.DATE,
+        field: 'deleted_at',
+        allowNull: true,
+      },
       id: {
         type: Sequelize.BIGINT,
         allowNull: false,
@@ -36,6 +41,11 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      sexType: {
+        type: Sequelize.ENUM('Unknown', 'Male', 'Female'),
+        field: 'sex_type',
+        defaultValue: 'Unknown',
       },
       birthdate: {
         type: Sequelize.DATE,
