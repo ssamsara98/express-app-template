@@ -39,8 +39,12 @@ export class AuthService {
     const passwordMatched = await comparePassword(password, user.password);
     if (!passwordMatched) throw this.loginError();
 
-    const accessToken = createToken(user);
-    return accessToken;
+    const tokens = {
+      tokenType: 'Bearer',
+      accessToken: createToken(user),
+      refreshToken: createToken(user, 'refresh'),
+    };
+    return tokens;
   }
 }
 

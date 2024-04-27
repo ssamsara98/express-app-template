@@ -11,8 +11,8 @@ export class AuthController {
   });
 
   login = expressAsyncHandler<any, any, LoginUserRequest>(async (req, res) => {
-    const accessToken = await this.authService.login(req.body);
-    res.json({ accessToken });
+    const tokens = await this.authService.login(req.body);
+    res.json(tokens);
   });
 }
 

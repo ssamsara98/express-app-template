@@ -24,6 +24,7 @@ export class Comment extends Model<InferAttributes<Comment>, InferCreationAttrib
 
   declare createdAt?: CreationOptional<Date>;
   declare updatedAt?: CreationOptional<Date>;
+  declare deletedAt?: Date | null;
 
   declare getCommentator: BelongsToGetAssociationMixin<User>;
   declare createCommentator: BelongsToCreateAssociationMixin<User>;

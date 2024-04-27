@@ -32,7 +32,7 @@ export class User extends Model<
   declare name: string;
   declare email: string;
   declare password: string;
-  declare sexType: 'Unknown' | 'Male' | 'Female';
+  declare sexType: 'Unknown' | 'Male' | 'Female' | null;
   declare birthdate: Date | null;
 
   // timestamps!
@@ -40,6 +40,8 @@ export class User extends Model<
   declare createdAt?: CreationOptional<Date>;
   // updatedAt can be undefined during creation
   declare updatedAt?: CreationOptional<Date>;
+
+  declare deletedAt?: Date | null;
 
   // Since TS cannot determine model association at compile time
   // we have to declare them here purely virtually
