@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { UpdateUserRequest } from '~/dto/user.request';
+import { UpdateUserRequest } from '~/modules/dto/user.request';
 import { Sql, sql } from '~/infrastructures/sql';
 
 export class UserService {

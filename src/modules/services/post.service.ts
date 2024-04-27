@@ -4,7 +4,7 @@ import {
   CreatePostRequest,
   PublishPostRequest,
   UpdatePostRequest,
-} from '~/dto/post.request';
+} from '~/modules/dto/post.request';
 import { Sql, sql } from '~/infrastructures/sql';
 
 export class PostService {

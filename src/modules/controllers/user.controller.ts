@@ -1,6 +1,6 @@
 import expressAsyncHandler from 'express-async-handler';
-import { UpdateUserRequest } from '~/dto/user.request';
-import { UserService, userService } from '~/services/user.service';
+import { UpdateUserRequest } from '~/modules/dto/user.request';
+import { UserService, userService } from '~/modules/services/user.service';
 import { successJson } from '~/utils/response.helper';
 
 type UserControllerId = { userId: string };

@@ -4,8 +4,8 @@ import {
   CreatePostRequest,
   PublishPostRequest,
   UpdatePostRequest,
-} from '~/dto/post.request';
-import { PostService, postService } from '~/services/post.service';
+} from '~/modules/dto/post.request';
+import { PostService, postService } from '~/modules/services/post.service';
 import { successJson } from '~/utils/response.helper';
 
 type PostControllerId = {

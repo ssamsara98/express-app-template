@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { commentController } from '~/controllers/comment.controller';
+import { commentController } from '~/modules/controllers/comment.controller';
 import { authMiddlware } from '~/middlewares/auth.middleware';
-import { commentValidation } from '~/validations/comment.validation';
+import { commentValidation } from '~/modules/validations/comment.validation';
 
 export const commentRoutes = Router();
 

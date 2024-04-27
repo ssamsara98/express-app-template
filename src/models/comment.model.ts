@@ -85,6 +85,7 @@ export const commentModel = (sequelize: Sequelize, DT: typeof DataTypes) => {
       sequelize,
       modelName: 'comment',
       underscored: true,
+      paranoid: true,
     },
   );
 

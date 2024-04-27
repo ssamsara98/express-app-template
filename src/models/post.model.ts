@@ -114,6 +114,7 @@ export const postModel = (sequelize: Sequelize, DT: typeof DataTypes) => {
       sequelize,
       modelName: 'post',
       underscored: true,
+      paranoid: true,
     },
   );
 

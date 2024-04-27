@@ -1,4 +1,4 @@
-import { HideCommentRequest, UpdateCommentRequest } from '~/dto/comment.request';
+import { HideCommentRequest, UpdateCommentRequest } from '~/modules/dto/comment.request';
 import { Sql, sql } from '~/infrastructures/sql';
 
 export class CommentService {

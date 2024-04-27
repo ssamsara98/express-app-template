@@ -32,6 +32,7 @@ export class User extends Model<
   declare name: string;
   declare email: string;
   declare password: string;
+  declare sexType: 'Unknown' | 'Male' | 'Female';
   declare birthdate: Date | null;
 
   // timestamps!
@@ -121,6 +122,10 @@ export const userModel = (sequelize: Sequelize, DT: typeof DataTypes) => {
           },
         },
       },
+      sexType: {
+        type: DT.ENUM('Unknown', 'Male', 'Female'),
+        defaultValue: 'Unknown',
+      },
       birthdate: {
         type: DT.DATE,
         validate: {
@@ -135,6 +140,7 @@ export const userModel = (sequelize: Sequelize, DT: typeof DataTypes) => {
       sequelize,
       modelName: 'user',
       underscored: true,
+      paranoid: true,
       defaultScope: { attributes: { exclude: ['password'] } },
       hooks: {
         beforeCreate: async (doc) => {

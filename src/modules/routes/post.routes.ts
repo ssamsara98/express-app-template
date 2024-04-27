@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { postController } from '~/controllers/post.controller';
+import { postController } from '~/modules/controllers/post.controller';
 import { authMiddlware } from '~/middlewares/auth.middleware';
-import { postValidation } from '~/validations/post.validation';
+import { postValidation } from '~/modules/validations/post.validation';
 
 export const postRoutes = Router();
 

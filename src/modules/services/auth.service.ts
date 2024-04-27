@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { LoginUserRequest, RegisterUserRequest } from '~/dto/auth.request';
+import { LoginUserRequest, RegisterUserRequest } from '~/modules/dto/auth.request';
 import { Sql, sql } from '~/infrastructures/sql';
 import { comparePassword } from '~/utils/bcrypt.helper';
 import { createToken } from '~/utils/jwt.helper';

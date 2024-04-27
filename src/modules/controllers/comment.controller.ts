@@ -1,6 +1,6 @@
 import expressAsyncHandler from 'express-async-handler';
-import { HideCommentRequest, UpdateCommentRequest } from '~/dto/comment.request';
-import { CommentService, commentService } from '~/services/comment.service';
+import { HideCommentRequest, UpdateCommentRequest } from '~/modules/dto/comment.request';
+import { CommentService, commentService } from '~/modules/services/comment.service';
 
 type CommentControllerId = {
   commentId: string;
