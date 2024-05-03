@@ -1,12 +1,15 @@
 import createHttpError from 'http-errors';
-import { UpdateUserRequest } from '~/modules/dto/user.request';
+import { UpdateUserDto } from '~/modules/dto/user.dto';
 import { Sql, sql } from '~/infrastructures/sql';
+import { paginate } from '~/utils/sequelize-paginate/paginate';
+import { IPaginationOptions } from '~/utils/sequelize-paginate/interfaces';
 
 export class UserService {
   constructor(private sql: Sql) {}
 
-  async getUserList() {
-    return this.sql.User.findAll();
+  async getUserList(options: IPaginationOptions) {
+    const result = await paginate(this.sql.User, options, { where: {} });
+    return result;
   }
 
   async getUser(userId: number) {
@@ -45,8 +48,8 @@ export class UserService {
     return user;
   }
 
-  async updateUser(myUserId: number, updateUserRequest: UpdateUserRequest) {
-    const { name, birthdate } = updateUserRequest;
+  async updateUser(myUserId: number, UpdateUserDto: UpdateUserDto) {
+    const { name, birthdate } = UpdateUserDto;
     const updatedProfile = await this.sql.User.update(
       { name, birthdate },
       {

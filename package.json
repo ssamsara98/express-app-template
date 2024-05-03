@@ -2,7 +2,7 @@
   "name": "express-app-template",
   "version": "1.0.0",
   "description": "Template for Express Application with TypeScript",
-  "author": "Sulthon Abdul Malik <sulthon.abdmalik@gmail.com>",
+  "author": "S Abd Malik",
   "license": "MIT",
   "main": "dist/bin/www",
   "scripts": {

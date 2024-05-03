@@ -2,11 +2,12 @@ import { Router } from 'express';
 import { postController } from '~/modules/controllers/post.controller';
 import { authMiddlware } from '~/middlewares/auth.middleware';
 import { postValidation } from '~/modules/validations/post.validation';
+import { paginationMiddleware } from '~/middlewares/pagination.middleware';
 
 export const postRoutes = Router();
 
 postRoutes
-  .get('/', postController.getPostList)
+  .get('/', paginationMiddleware, postController.getPostList)
   .get('/:postId', postValidation.getPost, postController.getPost);
 postRoutes
   .use(authMiddlware)

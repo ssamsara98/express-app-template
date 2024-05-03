@@ -1,8 +1,8 @@
 import createHttpError from 'http-errors';
-import { LoginUserRequest, RegisterUserRequest } from '~/modules/dto/auth.request';
+import { LoginDto, RegisterDto } from '~/modules/dto/auth.dto';
 import { Sql, sql } from '~/infrastructures/sql';
-import { comparePassword } from '~/utils/bcrypt.helper';
-import { createToken } from '~/utils/jwt.helper';
+import { comparePassword } from '~/utils/bcrypt.util';
+import { createToken } from '~/utils/jwt.util';
 
 export class AuthService {
   constructor(private readonly sql: Sql) {}
@@ -16,8 +16,8 @@ export class AuthService {
     if (user) throw createHttpError(409, 'Email already exist');
   }
 
-  async register(registerUserRequest: RegisterUserRequest) {
-    const { name, email, password, birthdate } = registerUserRequest;
+  async register(RegisterDto: RegisterDto) {
+    const { name, email, password, birthdate } = RegisterDto;
     await this.findEmail(email);
     const user = await this.sql.User.create({
       name,
@@ -28,7 +28,7 @@ export class AuthService {
     return user;
   }
 
-  async login(loginRequest: LoginUserRequest) {
+  async login(loginRequest: LoginDto) {
     const { email, password } = loginRequest;
     const user = await this.sql.User.findOne({
       where: { email },

@@ -1,23 +1,25 @@
 import createHttpError from 'http-errors';
 import {
-  AddPostCommentRequest,
-  CreatePostRequest,
-  PublishPostRequest,
-  UpdatePostRequest,
-} from '~/modules/dto/post.request';
+  AddPostCommentDto,
+  CreatePostDto,
+  PublishPostDto,
+  UpdatePostDto,
+} from '~/modules/dto/post.dto';
 import { Sql, sql } from '~/infrastructures/sql';
+import { paginate } from '~/utils/sequelize-paginate/paginate';
+import { IPaginationOptions } from '~/utils/sequelize-paginate/interfaces';
 
 export class PostService {
   constructor(private readonly sql: Sql) {}
 
-  async createPost(authorId: number, createPostRequest: CreatePostRequest) {
-    const { title, content } = createPostRequest;
+  async createPost(authorId: number, createPostDto: CreatePostDto) {
+    const { title, content } = createPostDto;
     const newPost = await this.sql.Post.create({ authorId, title, content });
     return newPost;
   }
 
-  async getPostList() {
-    const posts = await this.sql.Post.findAll({ where: { isPublished: true } });
+  async getPostList(options: IPaginationOptions) {
+    const posts = await paginate(this.sql.Post, options, { where: { isPublished: true } });
     return posts;
   }
 
@@ -34,8 +36,8 @@ export class PostService {
     return post;
   }
 
-  async updatePost(authorId: number, postId: number, updatePostRequest: UpdatePostRequest) {
-    const { title, content } = updatePostRequest;
+  async updatePost(authorId: number, postId: number, updatePostDto: UpdatePostDto) {
+    const { title, content } = updatePostDto;
     const updatedPost = await this.sql.Post.update(
       { title, content },
       { where: { id: postId, authorId } },
@@ -43,8 +45,8 @@ export class PostService {
     return updatedPost;
   }
 
-  async publishPost(authorId: number, postId: number, publishPostRequest: PublishPostRequest) {
-    const { isPublished } = publishPostRequest;
+  async publishPost(authorId: number, postId: number, publishPostDto: PublishPostDto) {
+    const { isPublished } = publishPostDto;
     const updatedPost = await this.sql.Post.update(
       { isPublished },
       { where: { id: postId, authorId } },
@@ -60,9 +62,9 @@ export class PostService {
   async addPostComment(
     commentatorId: number,
     postId: number,
-    addPostCommentRequest: AddPostCommentRequest,
+    addPostCommentDto: AddPostCommentDto,
   ) {
-    const { content } = addPostCommentRequest;
+    const { content } = addPostCommentDto;
     const addedComment = await this.sql.Comment.create({ commentatorId, postId, content });
     return addedComment;
   }

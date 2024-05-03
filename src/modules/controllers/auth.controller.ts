@@ -1,16 +1,17 @@
 import expressAsyncHandler from 'express-async-handler';
-import { LoginUserRequest, RegisterUserRequest } from '~/modules/dto/auth.request';
+import { LoginDto, RegisterDto } from '~/modules/dto/auth.dto';
 import { AuthService, authService } from '~/modules/services/auth.service';
+import { successJson } from '~/utils/response.util';
 
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  register = expressAsyncHandler<any, any, RegisterUserRequest>(async (req, res) => {
-    const user = await this.authService.register(req.body);
-    res.status(201).json(user);
+  register = expressAsyncHandler<any, any, RegisterDto>(async (req, res) => {
+    const result = await this.authService.register(req.body);
+    res.status(201).json(successJson(result));
   });
 
-  login = expressAsyncHandler<any, any, LoginUserRequest>(async (req, res) => {
+  login = expressAsyncHandler<any, any, LoginDto>(async (req, res) => {
     const tokens = await this.authService.login(req.body);
     res.json(tokens);
   });

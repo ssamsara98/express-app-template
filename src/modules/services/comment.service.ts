@@ -1,4 +1,4 @@
-import { HideCommentRequest, UpdateCommentRequest } from '~/modules/dto/comment.request';
+import { HideCommentDto, UpdateCommentDto } from '~/modules/dto/comment.dto';
 import { Sql, sql } from '~/infrastructures/sql';
 
 export class CommentService {
@@ -7,9 +7,9 @@ export class CommentService {
   async updateComment(
     commentatorId: number,
     commentId: number,
-    updateCommentRequest: UpdateCommentRequest,
+    updateCommentDto: UpdateCommentDto,
   ) {
-    const { content } = updateCommentRequest;
+    const { content } = updateCommentDto;
     const updatedComment = await this.sql.Comment.update(
       { content },
       { where: { id: commentId, commentatorId } },
@@ -17,12 +17,8 @@ export class CommentService {
     return updatedComment;
   }
 
-  async hideComment(
-    commentatorId: number,
-    commentId: number,
-    updateCommentRequest: HideCommentRequest,
-  ) {
-    const { hidden } = updateCommentRequest;
+  async hideComment(commentatorId: number, commentId: number, updateCommentDto: HideCommentDto) {
+    const { hidden } = updateCommentDto;
     const updatedComment = await this.sql.Comment.update(
       { hidden },
       { where: { id: commentId, commentatorId } },

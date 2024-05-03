@@ -1,11 +1,11 @@
-export interface CreateUserRequest {
+export interface CreateUserDto {
   name: string;
   email: string;
   password: string;
   birthdate?: Date;
 }
 
-export interface UpdateUserRequest {
+export interface UpdateUserDto {
   name: string;
   birthdate?: Date;
 }

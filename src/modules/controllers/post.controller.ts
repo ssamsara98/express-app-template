@@ -1,12 +1,13 @@
 import expressAsyncHandler from 'express-async-handler';
 import {
-  AddPostCommentRequest,
-  CreatePostRequest,
-  PublishPostRequest,
-  UpdatePostRequest,
-} from '~/modules/dto/post.request';
+  AddPostCommentDto,
+  CreatePostDto,
+  PublishPostDto,
+  UpdatePostDto,
+} from '~/modules/dto/post.dto';
 import { PostService, postService } from '~/modules/services/post.service';
-import { successJson } from '~/utils/response.helper';
+import { PaginationQuery } from '~/utils/pagination-query.util';
+import { successJson } from '~/utils/response.util';
 
 type PostControllerId = {
   postId: string;
@@ -15,27 +16,31 @@ type PostControllerId = {
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  createPost = expressAsyncHandler<any, any, CreatePostRequest>(async (req, res) => {
-    const newPost = await this.postService.createPost(req.user?.id!, req.body);
-    res.status(201).json(newPost);
+  createPost = expressAsyncHandler<any, any, CreatePostDto>(async (req, res) => {
+    const result = await this.postService.createPost(req.user?.id!, req.body);
+    res.status(201).json(successJson(result));
   });
 
-  getPostList = expressAsyncHandler(async (req, res) => {
-    const posts = await this.postService.getPostList();
-    res.json(successJson(posts));
+  getPostList = expressAsyncHandler<any, any, any, PaginationQuery>(async (req, res) => {
+    const result = await this.postService.getPostList({
+      limit: req.query.limit!,
+      page: req.query.page!,
+      route: req.originalUrl,
+    });
+    res.json(successJson(result));
   });
 
   getPost = expressAsyncHandler<PostControllerId>(async (req, res) => {
-    const post = await this.postService.getPost(parseInt(req.params.postId));
-    res.json(post);
+    const result = await this.postService.getPost(parseInt(req.params.postId));
+    res.json(successJson(result));
   });
 
-  updatePost = expressAsyncHandler<PostControllerId, any, UpdatePostRequest>(async (req, res) => {
+  updatePost = expressAsyncHandler<PostControllerId, any, UpdatePostDto>(async (req, res) => {
     await this.postService.updatePost(req.user?.id!, parseInt(req.params.postId), req.body);
     res.status(204).json();
   });
 
-  publishPost = expressAsyncHandler<PostControllerId, any, PublishPostRequest>(async (req, res) => {
+  publishPost = expressAsyncHandler<PostControllerId, any, PublishPostDto>(async (req, res) => {
     await this.postService.publishPost(req.user?.id!, parseInt(req.params.postId), req.body);
     res.status(204).json();
   });
@@ -45,20 +50,20 @@ export class PostController {
     res.status(204).json();
   });
 
-  addPostComment = expressAsyncHandler<PostControllerId, any, AddPostCommentRequest>(
+  addPostComment = expressAsyncHandler<PostControllerId, any, AddPostCommentDto>(
     async (req, res) => {
-      const addedComment = await this.postService.addPostComment(
+      const result = await this.postService.addPostComment(
         req.user?.id!,
         parseInt(req.params.postId),
         req.body,
       );
-      res.status(201).json(addedComment);
+      res.status(201).json(successJson(result));
     },
   );
 
   getPostComments = expressAsyncHandler<PostControllerId>(async (req, res) => {
-    const postComments = await this.postService.getPostComments(parseInt(req.params.postId));
-    res.json(successJson(postComments));
+    const result = await this.postService.getPostComments(parseInt(req.params.postId));
+    res.json(successJson(result));
   });
 }
 
