@@ -20,4 +20,10 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+.editorconfig
+.idea
+LICENSE
+Makefile
 README.md
+coverage*
+helm-charts

@@ -17,16 +17,19 @@ const databaseConfig = {
     url: process.env.DATABASE_URL,
     dialect: 'postgres',
     logging: console.log,
+    migrationStorageTableName: 'sequelize_meta',
   },
   test: {
     url: process.env.DATABASE_URL,
     dialect: 'postgres',
     logging: false,
+    migrationStorageTableName: 'sequelize_meta',
   },
   production: {
     url: process.env.DATABASE_URL,
     dialect: 'postgres',
     logging: false,
+    migrationStorageTableName: 'sequelize_meta',
     pool: {
       min: 1,
       max: 5,
