@@ -33,20 +33,28 @@ services:
       - net
 
   server:
-    image: ssamsara98/express-app-template:prod
+    image: ssamsara98/express-app-template:dev
     build:
-      context: .
-      dockerfile: ./Dockerfile
-      target: prod
+      context: ../
+      dockerfile: ./docker/Dockerfile
+      target: development
     restart: unless-stopped
     depends_on:
       - postgres
     ports:
       - 4000:4000
+      - 9229:9229
+    volumes:
+      - ..:/app:delegated
+      - /app/node_modules
     networks:
       - net
+    working_dir: /app
+    command: [ "sh", "-c", "npm run start:debug" ]
+    stdin_open: true
+    tty: true
     env_file:
-      - .env
+      - ../.env
 
 volumes:
   pgdata:

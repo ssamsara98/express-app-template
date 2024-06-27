@@ -31,9 +31,10 @@ export class User extends Model<
 > {
   // id can be undefined during creation when using `autoIncrement`
   declare id: CreationOptional<number>;
-  declare name: string;
   declare email: string;
+  declare username: string;
   declare password: string;
+  declare name: string;
   declare sexType: 'Unknown' | 'Male' | 'Female' | null;
   declare birthdate: Date | null;
 
@@ -104,10 +105,6 @@ export const userModel = (sequelize: Sequelize, DT: typeof DataTypes) => {
         autoIncrement: true,
         primaryKey: true,
       },
-      name: {
-        type: DT.STRING,
-        allowNull: false,
-      },
       email: {
         type: DT.STRING,
         allowNull: false,
@@ -116,15 +113,24 @@ export const userModel = (sequelize: Sequelize, DT: typeof DataTypes) => {
           isEmail: { msg: 'Email is invalid' },
         },
       },
+      username: {
+        type: DT.STRING,
+        allowNull: false,
+        unique: true,
+      },
       password: {
         type: DT.STRING,
         allowNull: false,
         validate: {
           len: {
-            args: [8, 32],
-            msg: 'Password must be between 8 and 32 characters',
+            args: [8, 64],
+            msg: 'Password must be between 8 and 64 characters',
           },
         },
+      },
+      name: {
+        type: DT.STRING,
+        allowNull: false,
       },
       sexType: {
         type: DT.ENUM('Unknown', 'Male', 'Female'),

@@ -7,13 +7,13 @@ module.exports = {
         type: Sequelize.DATE,
         field: 'created_at',
         allowNull: false,
-        defaultValue: Sequelize.NOW,
+        defaultValue: Sequelize.fn('NOW'),
       },
       updatedAt: {
         type: Sequelize.DATE,
         field: 'updated_at',
         allowNull: false,
-        defaultValue: Sequelize.NOW,
+        defaultValue: Sequelize.fn('NOW'),
       },
       deletedAt: {
         type: Sequelize.DATE,
@@ -33,6 +33,8 @@ module.exports = {
           model: 'users',
           key: 'id',
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       title: {
         type: Sequelize.STRING,

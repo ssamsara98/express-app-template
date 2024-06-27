@@ -7,13 +7,13 @@ module.exports = {
         type: Sequelize.DATE,
         field: 'created_at',
         allowNull: false,
-        defaultValue: Sequelize.NOW,
+        defaultValue: Sequelize.fn('NOW'),
       },
       updatedAt: {
         type: Sequelize.DATE,
         field: 'updated_at',
         allowNull: false,
-        defaultValue: Sequelize.NOW,
+        defaultValue: Sequelize.fn('NOW'),
       },
       deletedAt: {
         type: Sequelize.DATE,
@@ -26,19 +26,21 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
-        validate: {
-          isEmail: { msg: 'Email is invalid' },
-        },
+      },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
       },
       password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
       },

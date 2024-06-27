@@ -7,7 +7,7 @@
   "main": "dist/bin/www",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc -b",
+    "build": "tsc -p tsconfig.build.json",
     "start": "./node .",
     "start:prod": "cross-env NODE_ENV=production npm start",
     "start:pm2": "pm2-runtime ecosystem.config.js",

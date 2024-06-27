@@ -7,13 +7,13 @@ module.exports = {
         type: Sequelize.DATE,
         field: 'created_at',
         allowNull: false,
-        defaultValue: Sequelize.NOW,
+        defaultValue: Sequelize.fn('NOW'),
       },
       updatedAt: {
         type: Sequelize.DATE,
         field: 'updated_at',
         allowNull: false,
-        defaultValue: Sequelize.NOW,
+        defaultValue: Sequelize.fn('NOW'),
       },
       deletedAt: {
         type: Sequelize.DATE,
@@ -26,13 +26,26 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      commentatorId: {
-        type: Sequelize.BIGINT,
-        field: 'commentator_id',
-      },
       postId: {
         type: Sequelize.BIGINT,
         field: 'post_id',
+        references: {
+          model: 'posts',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
+      commentatorId: {
+        type: Sequelize.BIGINT,
+        field: 'commentator_id',
+        defaultValue: null,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
       },
       content: {
         type: Sequelize.TEXT,
