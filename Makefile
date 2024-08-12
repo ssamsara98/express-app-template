@@ -1,13 +1,19 @@
 include .env
 export
 
-COMPOSE_EXEC=docker compose -f ./docker/compose.yaml exec -it
+COMPOSE=docker compose -f ./docker/compose.yaml
+COMPOSE_PROD=docker compose -f ./docker/compose.production.yaml
+COMPOSE_DEPLOY=docker compose -f ./compose.yaml
+COMPOSE_EXEC=${COMPOSE} exec -it
 SERVER_EXEC=$(COMPOSE_EXEC) server
 
-BUN_RUN=$(COMPOSE_EXEC) server bun run
+NPM_RUN=$(COMPOSE_EXEC) server npm run
 ifeq ($(p),host)
-	BUN_RUN=bun run
+	NPM_RUN=npm run
 endif
+
+compose:
+	$(COMPOSE) $(ARGS)
 
 compose-exec:
 	$(COMPOSE_EXEC) $(ARGS)
@@ -15,24 +21,30 @@ compose-exec:
 server-exec:
 	$(SERVER_EXEC) $(ARGS)
 
-seq:
-	$(BUN_RUN) sequelize $(ARGS)
+npm-run:
+	$(NPM_RUN) $(ARGS)
 
 # docker compose
 dc:
-	docker compose -f ./docker/compose.yaml $(ARGS)
+	${COMPOSE} $(ARGS)
 
 dc-up:
-	docker compose -f ./docker/compose.yaml up -d $(ARGS)
+	${COMPOSE} up -d $(ARGS)
 
 dc-down:
-	docker compose -f ./docker/compose.yaml down $(ARGS)
+	${COMPOSE} down $(ARGS)
 
 dc-prod:
-	docker compose -f ./docker/compose.production.yaml $(ARGS)
+	${COMPOSE_PROD} $(ARGS)
 
 dc-prod-up:
-	docker compose -f ./docker/compose.production.yaml up -d $(ARGS)
+	${COMPOSE_PROD} up -d $(ARGS)
 
 dc-prod-down:
-	docker compose -f ./docker/compose.production.yaml down $(ARGS)
+	${COMPOSE_PROD} down $(ARGS)
+
+dc-deploy-up:
+	${COMPOSE_DEPLOY} up -d $(ARGS)
+
+dc-deploy-down:
+	${COMPOSE_DEPLOY} down $(ARGS)

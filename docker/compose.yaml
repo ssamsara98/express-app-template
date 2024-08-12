@@ -45,11 +45,11 @@ services:
       - 4000:4000
       - 9229:9229
     volumes:
-      - ..:/app:delegated
-      - /app/node_modules
+      - ..:/home/node/app:delegated
+      - /home/node/app/node_modules
     networks:
       - net
-    working_dir: /app
+    working_dir: /home/node/app
     command: [ "sh", "-c", "npm run start:debug" ]
     stdin_open: true
     tty: true
