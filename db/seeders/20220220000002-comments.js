@@ -7351,6 +7351,7 @@ module.exports = {
       return modifiedComment;
     });
     await queryInterface.bulkInsert('comments', comments);
+    await queryInterface.sequelize.query(`select setval('comments_id_seq', 1000);`);
   },
 
   async down(queryInterface, Sequelize) {

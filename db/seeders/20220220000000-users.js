@@ -29,13 +29,13 @@ module.exports = {
         username: 'ssamsara98',
         name: 'S Abd Malik',
         sex_type: 'Male',
-        birthdate: new Date('1998-12-29'),
+        birthdate: new Date('1998-09-08'),
       },
       {
         id: 2,
-        email: 'dtx@mailsac.com',
-        username: 'dtx',
-        name: 'DTX',
+        email: 'detteksie@mailsac.com',
+        username: 'detteksie',
+        name: 'Detteksie',
         sex_type: 'Unknown',
       },
       {
@@ -7038,6 +7038,7 @@ module.exports = {
       return modifiedUser;
     });
     await queryInterface.bulkInsert('users', users);
+    await queryInterface.sequelize.query(`select setval('users_id_seq', 1000);`);
   },
 
   async down(queryInterface, Sequelize) {
