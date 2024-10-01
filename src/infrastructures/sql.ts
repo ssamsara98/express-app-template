@@ -51,7 +51,7 @@ export class Sql extends Models {
   }
 
   async authenticate() {
-    const [, err] = await sequelize
+    const [, err] = await this.sequelize
       .authenticate()
       .then(() => {
         debug('SQL Connection has been established successfully.');
@@ -62,7 +62,7 @@ export class Sql extends Models {
         return [null, true];
       });
 
-    if (err) {
+    if (err && process.env.NODE_ENV !== 'test') {
       const sto = setTimeout(() => {
         this.authenticate();
         clearTimeout(sto);
