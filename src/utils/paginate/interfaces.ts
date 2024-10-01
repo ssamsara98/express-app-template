@@ -37,11 +37,11 @@ export interface IPaginationOptions<CustomMetaType = IPaginationMeta> {
   //  */
   // paginationType?: PaginationTypeEnum;
 
-  // /**
-  //  * @default true
-  //  * Turn off pagination count total queries. itemCount, totalItems, itemsPerPage and totalPages will be undefined
-  //  */
-  // countQueries?: boolean;
+  /**
+   * @default true
+   * Turn off pagination count total queries. itemCount, totalItems, itemsPerPage and totalPages will be undefined
+   */
+  countQueries?: boolean;
 
   // /**
   //  * @default false
