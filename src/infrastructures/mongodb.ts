@@ -16,42 +16,39 @@ export const schemas = new Schemas(TodoModel);
 export class MongoDB extends Schemas {
   readonly mongoose!: mongoose.Mongoose;
 
-  constructor(schemas: Schemas, m: typeof mongoose) {
+  constructor(schemas: Schemas, m: mongoose.Mongoose) {
     super(schemas.Todo);
     this.mongoose = m;
   }
 
   async connect() {
-    try {
-      if (process.env.NODE_ENV === 'development') {
-        mongoose.set('debug', true);
-      }
-      await this.mongoose.connect(process.env.MONGODB_URI!);
-      debug('MongoDB Connection has been established successfully.');
-    } catch (err) {
-      console.error('Unable to connect to the MongoDB:', err);
-      if (err && process.env.NODE_ENV !== 'test') {
-        const sto = setTimeout(() => {
-          this.connect();
-          clearTimeout(sto);
-        }, 10000);
-      }
+    if (process.env.NODE_ENV === 'development') {
+      this.mongoose.set('debug', true);
     }
+    const [, err] = await safewait(this.mongoose.connect(process.env.MONGODB_URI!));
+    if (err && process.env.NODE_ENV !== 'test') {
+      console.error('Unable to connect to MongoDB:', err.message);
+      const sto = setTimeout(() => {
+        console.log('reconnecting');
+        this.connect();
+        clearTimeout(sto);
+      }, 10000);
+      return;
+    }
+    debug('MongoDB Connection has been established successfully.');
   }
 
   async disconnect() {
-    try {
-      this.mongoose.disconnect();
-      debug('MongoDB has been disconnected.');
-    } catch (err) {
-      console.error('Unable to disconnect to the MongoDB:', err);
-      if (err && process.env.NODE_ENV !== 'test') {
-        const sto = setTimeout(() => {
-          this.disconnect();
-          clearTimeout(sto);
-        }, 10000);
-      }
+    const [, err] = await safewait(this.mongoose.disconnect());
+    if (err && process.env.NODE_ENV !== 'test') {
+      console.error('Unable to disconnect MongoDB:', err.message);
+      const sto = setTimeout(() => {
+        this.disconnect();
+        clearTimeout(sto);
+      }, 10000);
+      return;
     }
+    debug('MongoDB has been disconnected.');
   }
 }
 
