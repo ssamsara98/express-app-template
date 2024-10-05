@@ -4,10 +4,10 @@ import { debug } from '|/bin/debug';
 import { Comment, commentModel } from '|/models/comment.model';
 import { Post, postModel } from '|/models/post.model';
 import { User, userModel } from '|/models/user.model';
-import databaseConfig from '|db/database.config';
+import databaseConfig, { DatabaseConfig } from '|db/database.config';
 
 const env = process.env.NODE_ENV! || 'development';
-const config = databaseConfig[env as keyof typeof databaseConfig];
+const config = databaseConfig[env as keyof DatabaseConfig];
 
 export const sqlz: sequelize.Sequelize = config.url
   ? new sequelize.Sequelize(config.url satisfies string, config)
@@ -44,7 +44,10 @@ export class Sql extends Models {
 
   private createAssociation(models: Models) {
     (Object.keys(models) as Array<keyof Models>).forEach((modelName) => {
-      if (models[modelName].associate !== undefined) {
+      if (
+        models[modelName].associate !== undefined &&
+        typeof models[modelName].associate === 'function'
+      ) {
         models[modelName].associate(models);
       }
     });
